@@ -1,9 +1,11 @@
-const player = (symbol) => ({ symbol });
+const player = (name, symbol) => ({ name, symbol });
 
 const ticTacToe = (() => {
   let gameBoard = [];
   const players = [];
   let isOver = false;
+  let turn = 0;
+  const gameMode = 2; // 1 is pvp
 
   const newGame = (symbol) => {
     gameBoard = [
@@ -12,7 +14,13 @@ const ticTacToe = (() => {
       [0, 0, 0],
     ];
 
-    players.push(player(symbol));
+    players.push(player("player1", symbol));
+
+    if (symbol === "x") {
+      players.push(player("player2", "o"));
+    } else {
+      players.push(player("player2", "x"));
+    }
   };
 
   const hasWon = () => {
@@ -45,36 +53,69 @@ const ticTacToe = (() => {
       console.log("diagonal");
       return true;
     }
-    console.log("not won");
     return false;
   };
 
-  const render = (box, id) => {
+  const playerMove = (box, id) => {
     const inputBox = box;
-    const icon = players[0].symbol;
     const inputId = id;
+    const mainIcon = players[0].symbol;
     const xPos = parseInt(inputId[1], 10);
     const yPos = parseInt(inputId[2], 10);
 
-    if (icon === "x") {
-      inputBox.innerHTML = `
+    if (mainIcon === "x") {
+      if (turn % 2 === 0 || gameMode === 2) {
+        inputBox.innerHTML = `
         <div class="flex-center-o" style="display: none">
           <div class="o"></div>
         </div>
         <div class="x"></div>
-      `;
-      gameBoard[xPos][yPos] = 1;
-    } else {
-      inputBox.innerHTML = `
-        <div class="flex-center-o">
+        `;
+        gameBoard[xPos][yPos] = 1;
+      } else {
+        inputBox.innerHTML = `
+          <div class="flex-center-o">
+            <div class="o"></div>
+          </div>
+          <div class="x" style="display: none"></div>
+        `;
+        gameBoard[xPos][yPos] = 2;
+      }
+    } else if (mainIcon === "o") {
+      if (turn % 2 === 0 || gameMode === 2) {
+        inputBox.innerHTML = `
+          <div class="flex-center-o">
+            <div class="o"></div>
+          </div>
+          <div class="x" style="display: none"></div>
+        `;
+        gameBoard[xPos][yPos] = 2;
+      } else {
+        inputBox.innerHTML = `
+        <div class="flex-center-o" style="display: none">
           <div class="o"></div>
         </div>
-        <div class="x" style="display: none"></div>
-      `;
-      gameBoard[xPos][yPos] = 2;
+        <div class="x"></div>
+        `;
+        gameBoard[xPos][yPos] = 1;
+      }
     }
+    turn += 1;
+  };
+
+  const aiMove = () => {
+
+  };
+
+  const render = (box, id) => {
+    // render player move
+    playerMove(box, id);
+
+    if (gameMode === 2) {
+      aiMove();
+    }
+
     if (hasWon()) {
-      console.log("game over");
       isOver = true;
     }
   };
