@@ -39,7 +39,7 @@ const ticTacToe = (() => {
     for (let i = 0; i < gameBoard.length; i += 1) {
       if (gameBoard[i][0] !== 0 && gameBoard[i][0] === gameBoard[i][1]
         && gameBoard[i][1] === gameBoard[i][2]) {
-        // console.log("horizontal");
+        console.log("horizontal");
         return true;
       }
     }
@@ -47,7 +47,7 @@ const ticTacToe = (() => {
     for (let i = 0; i < gameBoard[0].length; i += 1) {
       if (gameBoard[0][i] !== 0 && gameBoard[0][i] === gameBoard[1][i]
         && gameBoard[1][i] === gameBoard[2][i]) {
-        // console.log("vertical");
+        console.log("vertical");
         return true;
       }
     }
@@ -55,13 +55,13 @@ const ticTacToe = (() => {
     // Check diagonal
     if (gameBoard[0][0] !== 0 && gameBoard[0][0] === gameBoard[1][1]
       && gameBoard[1][1] === gameBoard[2][2]) {
-      // console.log("diagonal");
+      console.log("diagonal");
       return true;
     }
 
     if (gameBoard[0][2] !== 0 && gameBoard[0][2] === gameBoard[1][1]
       && gameBoard[1][1] === gameBoard[2][0]) {
-      // console.log("diagonal");
+      console.log("diagonal");
       return true;
     }
     return false;
@@ -104,7 +104,7 @@ const ticTacToe = (() => {
     } else if (mainIcon === "o") {
       if (turn % 2 === 0 || gameMode === 2) {
         inputBox.innerHTML = `
-          <div class="flex-center-o">
+          <div class="flex-center-o show">
             <div class="o"></div>
           </div>
           <div class="x" style="display: none"></div>
@@ -130,6 +130,8 @@ const ticTacToe = (() => {
     const max = availableMoves.length - 1;
     const randomVal = Math.floor(Math.random() * (max - min + 1)) + min;
     const currAddress = availableMoves[randomVal];
+    const xPos = currAddress.charAt(1);
+    const yPos = currAddress.charAt(2);
     const currBox = document.getElementById(currAddress);
 
     availableMoves.splice(randomVal, 1);
@@ -141,6 +143,7 @@ const ticTacToe = (() => {
           </div>
           <div class="x" style="display: none"></div>
         `;
+      gameBoard[xPos][yPos] = 2;
     } else {
       currBox.innerHTML = `
         <div class="flex-center-o" style="display: none">
@@ -148,6 +151,7 @@ const ticTacToe = (() => {
         </div>
         <div class="x"></div>
         `;
+      gameBoard[xPos][yPos] = 1;
     }
   };
 
@@ -160,7 +164,7 @@ const ticTacToe = (() => {
     }
 
     if (gameMode === 2 && isOver === false) {
-      aiMove();
+      setTimeout(aiMove, 400);
     }
 
     if (hasWon() || availableMoves.length === 0) {
