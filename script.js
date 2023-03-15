@@ -1,21 +1,22 @@
+// Game of ticTacToe
 const ticTacToe = (() => {
-  let gameBoard = [];
   const availableMoves = [];
+  let gameBoard = [];
   let isOver = false;
-  let turn = 0;
-  const gameMode = 2; // 1 is pvp
-
   let aiMove;
   let humanMove;
 
-  const hasWon = () => {
+  // Calculate if all three elements are equal
+  const equal = (a, b, c) => (a === b && b === c);
+
+  // Check if game has ended and returns game outcome
+  const hasEnded = () => {
     let winner = null;
     let emptyBoxes = 0;
 
-    // Check horizontal
+    // Check horizontal for win
     for (let i = 0; i < gameBoard.length; i += 1) {
-      if (gameBoard[i][0] !== 0 && gameBoard[i][0] === gameBoard[i][1]
-        && gameBoard[i][1] === gameBoard[i][2]) {
+      if (gameBoard[i][0] !== 0 && equal(gameBoard[i][0], gameBoard[i][1], gameBoard[i][2])) {
         // console.log("horizontal");
         if (gameBoard[i][0] === 1) {
           winner = "x";
@@ -24,10 +25,9 @@ const ticTacToe = (() => {
         }
       }
     }
-    // Check vertical
+    // Check vertical for win
     for (let i = 0; i < gameBoard[0].length; i += 1) {
-      if (gameBoard[0][i] !== 0 && gameBoard[0][i] === gameBoard[1][i]
-        && gameBoard[1][i] === gameBoard[2][i]) {
+      if (gameBoard[0][i] !== 0 && equal(gameBoard[0][i], gameBoard[1][i], gameBoard[2][i])) {
         // console.log("vertical");
         if (gameBoard[0][i] === 1) {
           winner = "x";
@@ -37,9 +37,8 @@ const ticTacToe = (() => {
       }
     }
 
-    // Check diagonal
-    if (gameBoard[0][0] !== 0 && gameBoard[0][0] === gameBoard[1][1]
-      && gameBoard[1][1] === gameBoard[2][2]) {
+    // Check diagonal left top to right bottom
+    if (gameBoard[0][0] !== 0 && equal(gameBoard[0][0], gameBoard[1][1], gameBoard[2][2])) {
       // console.log("diagonal");
       if (gameBoard[0][0] === 1) {
         winner = "x";
@@ -48,8 +47,8 @@ const ticTacToe = (() => {
       }
     }
 
-    if (gameBoard[0][2] !== 0 && gameBoard[0][2] === gameBoard[1][1]
-      && gameBoard[1][1] === gameBoard[2][0]) {
+    // Check diagonal left bottom to right top
+    if (gameBoard[0][2] !== 0 && equal(gameBoard[0][2], gameBoard[1][1], gameBoard[2][0])) {
       // console.log("diagonal");
       if (gameBoard[0][2] === 1) {
         winner = "x";
@@ -58,7 +57,7 @@ const ticTacToe = (() => {
       }
     }
 
-    // check if draw
+    // count the number of empty boxes
     for (let i = 0; i < gameBoard.length; i += 1) {
       for (let j = 0; j < gameBoard[0].length; j += 1) {
         if (gameBoard[i][j] === 0) {
@@ -67,6 +66,7 @@ const ticTacToe = (() => {
       }
     }
 
+    // if no winner and all boxes filled then game is draw
     if (winner === null && emptyBoxes === 0) {
       return "draw";
     }
@@ -98,7 +98,7 @@ const ticTacToe = (() => {
       gameBoard[xPos][yPos] = 1;
     } else {
       inputBox.innerHTML = `
-      <div class="flex-center-o show">
+      <div class="flex-center-o">
         <div class="o"></div>
       </div>
       <div class="x" style="display: none"></div>
@@ -139,7 +139,7 @@ const ticTacToe = (() => {
   };
 
   const miniMax = (board, depth, isMaximizing) => {
-    const winner = hasWon();
+    const winner = hasEnded();
     if (winner !== null) {
       // console.log(winner);
       if (aiMove === "x") {
@@ -251,23 +251,23 @@ const ticTacToe = (() => {
   };
 
   const render = (box, id) => {
+    if (hasEnded() !== null) {
+      console.log("over");
+      isOver = true;
+    }
+
     // render player move
     playerMove(box, id);
 
-    if (hasWon() !== null) {
+    if (hasEnded() !== null) {
       console.log("over");
       isOver = true;
-      for (let i = 0; i < gameBoard.length; i += 1) {
-        for (let j = 0; j < gameBoard[0].length; j += 1) {
-          console.log(gameBoard[i][j]);
-        }
-      }
     }
-    if (gameMode === 2 && isOver === false) {
+    if (isOver === false) {
       aiMoveHard();
     }
 
-    if (hasWon() !== null) {
+    if (hasEnded() !== null) {
       console.log("over");
       isOver = true;
     }
@@ -303,13 +303,13 @@ const ticTacToe = (() => {
 
   return {
     newGame,
-    hasWon,
+    hasEnded,
     render,
     getIsOver,
   };
 })();
 
-ticTacToe.newGame("x");
+ticTacToe.newGame("o");
 
 const gameBoxes = document.querySelectorAll(".box");
 
