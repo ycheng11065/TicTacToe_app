@@ -85,49 +85,27 @@ const ticTacToe = (() => {
   const playerMove = (box, id) => {
     const inputBox = box;
     const inputId = id;
-    const mainIcon = humanMove;
     const xPos = parseInt(inputId[1], 10);
     const yPos = parseInt(inputId[2], 10);
 
-    if (mainIcon === "x") {
-      if (turn % 2 === 0 || gameMode === 2) {
-        inputBox.innerHTML = `
-        <div class="flex-center-o" style="display: none">
-          <div class="o"></div>
-        </div>
-        <div class="x"></div>
-        `;
-        gameBoard[xPos][yPos] = 1;
-      } else {
-        inputBox.innerHTML = `
-          <div class="flex-center-o">
-            <div class="o"></div>
-          </div>
-          <div class="x" style="display: none"></div>
-        `;
-        gameBoard[xPos][yPos] = 2;
-      }
-    } else if (mainIcon === "o") {
-      if (turn % 2 === 0 || gameMode === 2) {
-        inputBox.innerHTML = `
-          <div class="flex-center-o show">
-            <div class="o"></div>
-          </div>
-          <div class="x" style="display: none"></div>
-        `;
-        gameBoard[xPos][yPos] = 2;
-      } else {
-        inputBox.innerHTML = `
-        <div class="flex-center-o" style="display: none">
-          <div class="o"></div>
-        </div>
-        <div class="x"></div>
-        `;
-        gameBoard[xPos][yPos] = 1;
-      }
+    if (humanMove === "x") {
+      inputBox.innerHTML = `
+      <div class="flex-center-o" style="display: none">
+        <div class="o"></div>
+      </div>
+      <div class="x"></div>
+      `;
+      gameBoard[xPos][yPos] = 1;
+    } else {
+      inputBox.innerHTML = `
+      <div class="flex-center-o show">
+        <div class="o"></div>
+      </div>
+      <div class="x" style="display: none"></div>
+      `;
+      gameBoard[xPos][yPos] = 2;
     }
     removeMove(xPos, yPos);
-    turn += 1;
   };
 
   const aiMoveEasy = () => {
@@ -297,13 +275,12 @@ const ticTacToe = (() => {
 
   const getIsOver = () => isOver;
 
-  const newGame = (symbol) => {
+  const newGame = (iconChoice) => {
     gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
     ];
-    turn = 0;
     isOver = false;
     availableMoves.length = 0;
 
@@ -314,12 +291,12 @@ const ticTacToe = (() => {
       }
     }
 
-    if (symbol === "x") {
+    if (iconChoice === "x") {
       aiMove = "o";
-      humanMove = "x";
+      humanMove = iconChoice;
     } else {
       aiMove = "x";
-      humanMove = "o";
+      humanMove = iconChoice;
       aiMoveEasy();
     }
   };
