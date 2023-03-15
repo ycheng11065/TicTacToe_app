@@ -1,14 +1,12 @@
-const player = (name, symbol) => ({ name, symbol });
-
 const ticTacToe = (() => {
   let gameBoard = [];
-  const players = [];
   const availableMoves = [];
   let isOver = false;
   let turn = 0;
   const gameMode = 2; // 1 is pvp
 
   let aiMove;
+  let humanMove;
 
   const hasWon = () => {
     let winner = null;
@@ -87,7 +85,7 @@ const ticTacToe = (() => {
   const playerMove = (box, id) => {
     const inputBox = box;
     const inputId = id;
-    const mainIcon = players[0].symbol;
+    const mainIcon = humanMove;
     const xPos = parseInt(inputId[1], 10);
     const yPos = parseInt(inputId[2], 10);
 
@@ -133,7 +131,6 @@ const ticTacToe = (() => {
   };
 
   const aiMoveEasy = () => {
-    const mainIcon = players[0].symbol;
     const min = 0;
     const max = availableMoves.length - 1;
     const randomVal = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -144,7 +141,7 @@ const ticTacToe = (() => {
 
     availableMoves.splice(randomVal, 1);
 
-    if (mainIcon === "x") {
+    if (humanMove === "x") {
       currBox.innerHTML = `
           <div class="flex-center-o">
             <div class="o"></div>
@@ -288,7 +285,6 @@ const ticTacToe = (() => {
         }
       }
     }
-    // console.log(currentPlayer);
     if (gameMode === 2 && isOver === false) {
       aiMoveHard();
     }
@@ -297,7 +293,6 @@ const ticTacToe = (() => {
       console.log("over");
       isOver = true;
     }
-    // console.log(currentPlayer);
   };
 
   const getIsOver = () => isOver;
@@ -310,9 +305,7 @@ const ticTacToe = (() => {
     ];
     turn = 0;
     isOver = false;
-    players.length = 0;
     availableMoves.length = 0;
-    players.push(player("player1", symbol));
 
     for (let i = 0; i < gameBoard.length; i += 1) {
       for (let j = 0; j < gameBoard[0].length; j += 1) {
@@ -322,17 +315,16 @@ const ticTacToe = (() => {
     }
 
     if (symbol === "x") {
-      players.push(player("player2", "o"));
       aiMove = "o";
+      humanMove = "x";
     } else {
-      players.push(player("player2", "x"));
       aiMove = "x";
+      humanMove = "o";
       aiMoveEasy();
     }
   };
 
   return {
-    player,
     newGame,
     hasWon,
     render,
@@ -340,7 +332,7 @@ const ticTacToe = (() => {
   };
 })();
 
-ticTacToe.newGame("o");
+ticTacToe.newGame("x");
 
 const gameBoxes = document.querySelectorAll(".box");
 
