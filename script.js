@@ -148,33 +148,25 @@ const ticTacToe = (() => {
     }
   };
 
-  const miniMax = (depth, isMaximizing) => {
+  // Minimax helper function
+  const miniMax = (medium, depth, isMaximizing) => {
+    // Medium mode allows Minimax algorithm to reach up to 2 depths and returns
+    // a less impactful value
+    if (medium && depth === 2) return 5;
+
     const winner = hasEnded();
+    // Terminating case, return if minimax branch has reached an end
     if (winner !== null) {
-      // console.log(winner);
-      if (aiMove === "x") {
-        if (winner === "o") {
-          return -10;
-        }
-        if (winner === "x") {
-          return 10;
-        }
-        if (winner === "draw") {
-          return 0;
-        }
-      } else {
-        if (winner === "o") {
-          return 10;
-        }
-        if (winner === "x") {
-          return -10;
-        }
-        if (winner === "draw") {
-          return 0;
-        }
+      if (winner === "draw") {
+        return 0;
       }
+      if (winner === aiMove) {
+        return 10 - depth;
+      }
+      return depth - 10;
     }
 
+    // AI's maximizing turns
     if (isMaximizing) {
       let bestScore = -Infinity;
       for (let i = 0; i < 3; i += 1) {
@@ -185,7 +177,7 @@ const ticTacToe = (() => {
             } else {
               gameBoard[i][j] = 2;
             }
-            const score = miniMax(depth + 1, false);
+            const score = miniMax(medium, depth + 1, false);
             gameBoard[i][j] = 0;
             bestScore = Math.max(score, bestScore);
           }
@@ -194,6 +186,7 @@ const ticTacToe = (() => {
       return bestScore;
     }
 
+    // Player's minimizing turn
     let bestScore = Infinity;
     for (let i = 0; i < 3; i += 1) {
       for (let j = 0; j < 3; j += 1) {
@@ -203,7 +196,7 @@ const ticTacToe = (() => {
           } else {
             gameBoard[i][j] = 1;
           }
-          const score = miniMax(depth + 1, true);
+          const score = miniMax(medium, depth + 1, true);
           gameBoard[i][j] = 0;
           bestScore = Math.min(score, bestScore);
         }
@@ -212,7 +205,9 @@ const ticTacToe = (() => {
     return bestScore;
   };
 
-  const aiMoveHard = () => {
+  // AI - hard mode, AI uses minimax to pick moves, unbeatable
+  // AI - medium mode, AI uses minimax but only up to 2 depths
+  const aiMoveHard = (medium) => {
     let bestScore = -Infinity;
     let bestMove;
     for (let i = 0; i < 3; i += 1) {
@@ -223,7 +218,7 @@ const ticTacToe = (() => {
           } else {
             gameBoard[i][j] = 2;
           }
-          const score = miniMax(0, false);
+          const score = miniMax(medium, 0, false);
           gameBoard[i][j] = 0;
           if (score > bestScore) {
             bestScore = score;
@@ -250,6 +245,7 @@ const ticTacToe = (() => {
     }
   };
 
+  // Run the game steps in order
   const gameRun = (box, id) => {
     // render player move
     playerMove(box, id);
@@ -257,14 +253,16 @@ const ticTacToe = (() => {
     declareEnd();
 
     if (isOver === false) {
-      aiMoveHard();
+      aiMoveHard(false);
     }
 
     declareEnd();
   };
 
+  // Returns isOver
   const getIsOver = () => isOver;
 
+  // Setup and start new game
   const newGame = (iconChoice) => {
     gameBoard = [
       [0, 0, 0],
@@ -299,7 +297,7 @@ const ticTacToe = (() => {
   };
 })();
 
-ticTacToe.newGame("o");
+ticTacToe.newGame("x");
 
 const gameBoxes = document.querySelectorAll(".box");
 
