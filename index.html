@@ -6,48 +6,70 @@
     <meta name="viewport" content="width=device-width" , initial-scale="1.0" />
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="style.css" />
+    <<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="board">
-      <div class="row1">
-        <div class="column1">
-          <div class="box" id="p00">
-          </div>
+    <div class="tictactoe">
+      <div class = "header">
+        <div class = "header-container">
+          <h1 class="game-title"> Tic Tac Toe</h1>
+          <button class="game-button" id="x-button">Press 'X'</button>
+          <p class="instructions">or</p>
+          <button class="game-button" id="o-button">Press 'O'</button>
+          <p class="instructions">to start. </p>
+          <p class="instructions" id = "last-line">The game ends with 3 in a row!</p>         
         </div>
-        <div class="column2">
-          <div class="box" id="p01">
-          </div>
-        </div>
-        <div class="column3">
-          <div class="box" id="p02">
-          </div>
-        </div>
+        <select class="select-dif">
+          <option disabled selected>Easy</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
       </div>
-      <div class="row2">
-        <div class="column1">
-          <div class="box" id="p10">
+
+      <div class="board">
+        <div class="row1">
+          <div class="column1">
+            <div class="box" id="p00">
+            </div>
+          </div>
+          <div class="column2">
+            <div class="box" id="p01">
+            </div>
+          </div>
+          <div class="column3">
+            <div class="box" id="p02">
+            </div>
           </div>
         </div>
-        <div class="column2">
-          <div class="box" id="p11">
+        <div class="row2">
+          <div class="column1">
+            <div class="box" id="p10">
+            </div>
+          </div>
+          <div class="column2">
+            <div class="box" id="p11">
+            </div>
+          </div>
+          <div class="column3">
+            <div class="box" id="p12">
+            </div>
           </div>
         </div>
-        <div class="column3">
-          <div class="box" id="p12">
+        <div class="row3">
+          <div class="column1">
+            <div class="box" id="p20">
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="row3">
-        <div class="column1">
-          <div class="box" id="p20">
+          <div class="column2">
+            <div class="box" id="p21">
+            </div>
           </div>
-        </div>
-        <div class="column2">
-          <div class="box" id="p21">
-          </div>
-        </div>
-        <div class="column3">
-          <div class="box" id="p22">
+          <div class="column3">
+            <div class="box" id="p22">
+            </div>
           </div>
         </div>
       </div>
