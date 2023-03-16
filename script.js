@@ -286,11 +286,8 @@ const ticTacToe = (() => {
     declareEnd();
   };
 
-  // Returns isOver
-  const getIsOver = () => isOver;
-
-  // Setup and start new game
-  const newGame = (iconChoice, selectedDifficulty) => {
+  // Reset board
+  const reset = () => {
     gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
@@ -298,7 +295,6 @@ const ticTacToe = (() => {
     ];
     isOver = false;
     availableMoves.length = 0;
-    difficulty = selectedDifficulty;
 
     for (let i = 0; i < gameBoard.length; i += 1) {
       for (let j = 0; j < gameBoard[0].length; j += 1) {
@@ -306,6 +302,18 @@ const ticTacToe = (() => {
         availableMoves.push(address);
       }
     }
+
+    const gameBoxes = document.querySelectorAll(".box");
+    gameBoxes.forEach((gameBox) => {
+      // eslint-disable-next-line
+      gameBox.innerHTML = "";
+    });
+  };
+
+  // Setup and start new game
+  const newGame = (iconChoice, selectedDifficulty) => {
+    reset();
+    difficulty = selectedDifficulty;
 
     if (iconChoice === "x") {
       aiSymbol = "o";
@@ -316,6 +324,9 @@ const ticTacToe = (() => {
       aiMoveEasy();
     }
   };
+
+  // Returns isOver
+  const getIsOver = () => isOver;
 
   return {
     newGame,
