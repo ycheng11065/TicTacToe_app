@@ -13,7 +13,7 @@ body {
 }
 
 .tictactoe {
-    margin-top: 2rem;
+    margin-top: 1.1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -216,6 +216,35 @@ body {
     border-radius: 50%;
     background-color: #ffffff;
 }
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.9);
+    /* display: none; */
+    z-index: 2;
+}
+
+.overlay p {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 4rem;
+}
+
+#winner {
+    color: white;
+    font-size: 4rem;
+    /* color: #00F0FF; */
+    color: #9EFF00;
+}
+
+
 
 @media (min-width: 250px) {
     * {
