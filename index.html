@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" , initial-scale="1.0" />
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="style.css" />
-    <<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   </head>
@@ -22,14 +22,26 @@
           <p class="instructions" id = "last-line">The game ends with 3 in a row!</p>         
         </div>
         <select class="select-dif">
-          <option id="curr-diff" disabled selected>Select Mode</option>
+          <option id="curr-diff" disabled selected>Easy</option>
           <option id="easy" value="Easy">Easy</option>
           <option id="medium" value="Medium">Medium</option>
           <option id="hard" value="Hard">Hard</option>
         </select>
       </div>
 
-      <div class="board">
+    <div class="board">
+      <div class="box" id="p00"></div>
+      <div class="box" id="p01"></div>
+      <div class="box" id="p02"></div>
+      <div class="box" id="p10"></div>
+      <div class="box" id="p11"></div>
+      <div class="box" id="p12"></div>
+      <div class="box" id="p20"></div>
+      <div class="box" id="p21"></div>
+      <div class="box" id="p22"></div>
+    </div>
+
+      <!-- <div class="board">
         <div class="row1">
           <div class="column1">
             <div class="box" id="p00">
@@ -73,8 +85,8 @@
           </div>
         </div>
       </div>
-    </div>
-    
+    </div> -->
+
     <script src="script.js"></script>
   </body>
 </html>
