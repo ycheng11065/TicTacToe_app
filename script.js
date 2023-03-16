@@ -3,8 +3,9 @@ const ticTacToe = (() => {
   const availableMoves = [];
   let gameBoard = [];
   let isOver = false;
-  let aiMove;
-  let humanMove;
+  let aiSymbol;
+  let humanSymbol;
+  let difficulty;
 
   // Calculate if all three elements are equal
   const equal = (a, b, c) => (a === b && b === c);
@@ -91,22 +92,40 @@ const ticTacToe = (() => {
   };
 
   // Renders the x and o within the boxes
-  const renderBox = (box, move) => {
+  const renderBox = (box, move, isAi) => {
     const currbox = box;
     if (move === "x") {
-      currbox.innerHTML = `
-      <div class="flex-center-o" style="display: none">
+      if (isAi) {
+        currbox.innerHTML = `
+        <div class="flex-center-o" style="display: none">
+          <div class="o"></div>
+        </div>
+        <div class="x" style="animation-delay: 0.3s"></div>
+        `;
+      } else {
+        currbox.innerHTML = `
+        <div class="flex-center-o" style="display: none">
+          <div class="o"></div>
+        </div>
+        <div class="x"></div>
+        `;
+      }
+    } else if (move === "o") {
+      if (isAi) {
+        currbox.innerHTML = `
+      <div class="flex-center-o" style="animation-delay: 0.3s">
         <div class="o"></div>
       </div>
-      <div class="x"></div>
+      <div class="x" style="display: none"></div>
       `;
-    } else {
-      currbox.innerHTML = `
+      } else {
+        currbox.innerHTML = `
       <div class="flex-center-o">
         <div class="o"></div>
       </div>
       <div class="x" style="display: none"></div>
       `;
+      }
     }
   };
 
@@ -117,11 +136,11 @@ const ticTacToe = (() => {
     const xPos = parseInt(inputId[1], 10);
     const yPos = parseInt(inputId[2], 10);
 
-    if (humanMove === "x") {
-      renderBox(inputBox, "x");
+    if (humanSymbol === "x") {
+      renderBox(inputBox, "x", false);
       gameBoard[xPos][yPos] = 1;
     } else {
-      renderBox(inputBox, "o");
+      renderBox(inputBox, "o", false);
       gameBoard[xPos][yPos] = 2;
     }
     removeMove(xPos, yPos);
@@ -139,11 +158,11 @@ const ticTacToe = (() => {
 
     availableMoves.splice(randomVal, 1);
 
-    if (humanMove === "x") {
-      renderBox(currBox, "o");
+    if (humanSymbol === "x") {
+      renderBox(currBox, "o", true);
       gameBoard[xPos][yPos] = 2;
     } else {
-      renderBox(currBox, "x");
+      renderBox(currBox, "x", true);
       gameBoard[xPos][yPos] = 1;
     }
   };
@@ -160,7 +179,7 @@ const ticTacToe = (() => {
       if (winner === "draw") {
         return 0;
       }
-      if (winner === aiMove) {
+      if (winner === aiSymbol) {
         return 10 - depth;
       }
       return depth - 10;
@@ -172,7 +191,7 @@ const ticTacToe = (() => {
       for (let i = 0; i < 3; i += 1) {
         for (let j = 0; j < 3; j += 1) {
           if (gameBoard[i][j] === 0) {
-            if (aiMove === "x") {
+            if (aiSymbol === "x") {
               gameBoard[i][j] = 1;
             } else {
               gameBoard[i][j] = 2;
@@ -191,7 +210,7 @@ const ticTacToe = (() => {
     for (let i = 0; i < 3; i += 1) {
       for (let j = 0; j < 3; j += 1) {
         if (gameBoard[i][j] === 0) {
-          if (aiMove === "x") {
+          if (aiSymbol === "x") {
             gameBoard[i][j] = 2;
           } else {
             gameBoard[i][j] = 1;
@@ -213,7 +232,7 @@ const ticTacToe = (() => {
     for (let i = 0; i < 3; i += 1) {
       for (let j = 0; j < 3; j += 1) {
         if (gameBoard[i][j] === 0) {
-          if (aiMove === "x") {
+          if (aiSymbol === "x") {
             gameBoard[i][j] = 1;
           } else {
             gameBoard[i][j] = 2;
@@ -230,18 +249,26 @@ const ticTacToe = (() => {
     const xPos = bestMove.i;
     const yPos = bestMove.j;
 
-    if (aiMove === "x") {
+    if (aiSymbol === "x") {
       const currBox = document.getElementById(`p${xPos}${yPos}`);
-      renderBox(currBox, "x");
-      const current = document.querySelector(`#p${xPos}${yPos} .x`);
-      current.style.animationDelay = ".3s";
+      renderBox(currBox, "x", true);
       gameBoard[xPos][yPos] = 1;
     } else {
       const currBox = document.getElementById(`p${xPos}${yPos}`);
-      renderBox(currBox, "o");
-      const current = document.querySelector(`#p${xPos}${yPos} .flex-center-o`);
-      current.style.animationDelay = ".3s";
+      renderBox(currBox, "o", true);
       gameBoard[xPos][yPos] = 2;
+    }
+  };
+
+  const aiMove = () => {
+    console.log(difficulty);
+
+    if (difficulty === "Easy") {
+      aiMoveEasy();
+    } else if (difficulty === "Medium") {
+      aiMoveHard(true);
+    } else {
+      aiMoveHard(false);
     }
   };
 
@@ -253,7 +280,7 @@ const ticTacToe = (() => {
     declareEnd();
 
     if (isOver === false) {
-      aiMoveHard(false);
+      aiMove(difficulty);
     }
 
     declareEnd();
@@ -263,7 +290,7 @@ const ticTacToe = (() => {
   const getIsOver = () => isOver;
 
   // Setup and start new game
-  const newGame = (iconChoice) => {
+  const newGame = (iconChoice, selectedDifficulty) => {
     gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
@@ -271,6 +298,7 @@ const ticTacToe = (() => {
     ];
     isOver = false;
     availableMoves.length = 0;
+    difficulty = selectedDifficulty;
 
     for (let i = 0; i < gameBoard.length; i += 1) {
       for (let j = 0; j < gameBoard[0].length; j += 1) {
@@ -280,11 +308,11 @@ const ticTacToe = (() => {
     }
 
     if (iconChoice === "x") {
-      aiMove = "o";
-      humanMove = iconChoice;
+      aiSymbol = "o";
+      humanSymbol = iconChoice;
     } else {
-      aiMove = "x";
-      humanMove = iconChoice;
+      aiSymbol = "x";
+      humanSymbol = iconChoice;
       aiMoveEasy();
     }
   };
@@ -297,9 +325,11 @@ const ticTacToe = (() => {
   };
 })();
 
-ticTacToe.newGame("x");
-
 const gameBoxes = document.querySelectorAll(".box");
+const selectDif = document.querySelector(".select-dif");
+const startDifficulty = selectDif.options[selectDif.selectedIndex].text;
+console.log(startDifficulty);
+ticTacToe.newGame("x", startDifficulty);
 
 gameBoxes.forEach((gameBox) => {
   gameBox.addEventListener("click", () => {
@@ -309,4 +339,10 @@ gameBoxes.forEach((gameBox) => {
     const currID = gameBox.getAttribute("id");
     ticTacToe.gameRun(gameBox, currID);
   });
+});
+
+selectDif.addEventListener("change", () => {
+  const difficulty = selectDif.options[selectDif.selectedIndex].text;
+  console.log(difficulty);
+  ticTacToe.newGame("x", difficulty);
 });

@@ -47,6 +47,7 @@ body {
     background-color: black;
     text-align: left;
     cursor: pointer;
+    border: none;
 }
 
 .game-button:hover {
@@ -151,7 +152,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
     opacity: 0;
     animation: fadeIn 0.5s ease-in-out forwards;
 }
@@ -224,7 +224,7 @@ body {
     top: 0;
     left: 0;
     background-color: rgba(0,0,0,0.9);
-    /* display: none; */
+    display: none;
     z-index: 2;
 }
 
