@@ -314,13 +314,15 @@ const ticTacToe = (() => {
   const newGame = (iconChoice, selectedDifficulty) => {
     reset();
     difficulty = selectedDifficulty;
+    humanSymbol = iconChoice;
+    // console.log(difficulty);
+    // console.log(iconChoice);
+    // console.log("--------");
 
-    if (iconChoice === "x") {
+    if (humanSymbol === "x") {
       aiSymbol = "o";
-      humanSymbol = iconChoice;
     } else {
       aiSymbol = "x";
-      humanSymbol = iconChoice;
       aiMoveEasy();
     }
   };
@@ -339,7 +341,9 @@ const ticTacToe = (() => {
 const gameBoxes = document.querySelectorAll(".box");
 const selectDif = document.querySelector(".select-dif");
 const startDifficulty = selectDif.options[selectDif.selectedIndex].text;
-console.log(startDifficulty);
+const xButton = document.querySelector("#x-button");
+const oButton = document.querySelector("#o-button");
+
 ticTacToe.newGame("x", startDifficulty);
 
 gameBoxes.forEach((gameBox) => {
@@ -354,6 +358,30 @@ gameBoxes.forEach((gameBox) => {
 
 selectDif.addEventListener("change", () => {
   const difficulty = selectDif.options[selectDif.selectedIndex].text;
-  console.log(difficulty);
+  let newColor = "var(--green-color)";
+  if (difficulty === "Medium") {
+    newColor = "var(--blue-color)";
+  } else if (difficulty === "Hard") {
+    newColor = "var(--red-color)";
+  }
+  selectDif.style.color = newColor;
+  if (xButton.classList.length === 2) {
+    ticTacToe.newGame("x", difficulty);
+  } else {
+    ticTacToe.newGame("o", difficulty);
+  }
+});
+
+xButton.addEventListener("click", () => {
+  const difficulty = selectDif.options[selectDif.selectedIndex].text;
+  oButton.classList.remove("active");
+  xButton.className += " active";
   ticTacToe.newGame("x", difficulty);
+});
+
+oButton.addEventListener("click", () => {
+  const difficulty = selectDif.options[selectDif.selectedIndex].text;
+  xButton.classList.remove("active");
+  oButton.className += " active";
+  ticTacToe.newGame("o", difficulty);
 });

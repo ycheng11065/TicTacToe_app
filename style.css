@@ -52,24 +52,25 @@ body {
     font-size: 1.3rem;
     line-height: 1rem;
     background-color: var(--background-color);
-    text-align: left;
+    text-align: center;
     cursor: pointer;
-    border: none;
-}
-
-.game-button:hover {
-    outline: none;
-    border: 0.2rem solid var(--red-color);
-    /* border-radius: 10px; */
+    border: 0.1rem solid black;
+    /* border-bottom: 0.1rem solid var(--font-color); */
+    /* border-radius: 0.625rem; */
 }
 
 .game-button:active {
     transform: translateY(0.2rem);
-    /* border: 2px solid white; */
 }
 
 #x-button {
     color: var(--green-color);
+}
+
+#x-button:hover {
+    /* color: var(--red-color); */
+    border: 0.1rem solid var(--red-color);
+    border-radius: 0.625rem;
 }
 
 #o-button {
@@ -77,8 +78,25 @@ body {
     color: var(--blue-color);
 }
 
+#o-button:hover {
+    border: 0.1rem solid var(--red-color);
+    border-radius: 0.625rem;
+}
+
+#x-button.active{
+    border: 0.1rem solid grey;
+    border-radius: 0.625rem;
+}
+
+#o-button.active{
+    border: 0.1rem solid grey;
+    border-radius: 0.625rem;
+}
+
 .instructions {
+    margin-left: 0.3rem;
     display: inline;
+    line-height: 2rem;
     color: var(--font-color);
     font-size: 1.4rem;
 }
