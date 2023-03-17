@@ -423,10 +423,6 @@ const ticTacToe = (() => {
 
   return {
     newGame,
-    hasEnded,
-    gameRun,
-    getIsOver,
-    reset,
   };
 })();
 
