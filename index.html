@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="overlay">
+    <div class="overlay" style="display:none">
       <p><span id="winner">X</span> wins!</p>
+      <p>Press r to restart</p>
     </div>
     <div class="tictactoe">
       <div class = "header">
@@ -25,7 +26,6 @@
           <p class="instructions" id = "last-line">The game ends with 3 in a row!</p>         
         </div>
         <select class="select-dif">
-          <!-- <option id="curr-diff" disabled selected>Easy</option> -->
           <option id="easy" value="Easy">Easy</option>
           <option id="medium" value="Medium">Medium</option>
           <option id="hard" value="Hard">Hard</option>

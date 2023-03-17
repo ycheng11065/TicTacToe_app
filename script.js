@@ -76,7 +76,27 @@ const ticTacToe = (() => {
 
   // Stop game if game has ended
   const declareEnd = () => {
-    if (hasEnded() !== null) {
+    const outcome = hasEnded();
+    const endMsg = document.querySelector(".overlay p");
+    console.log(outcome);
+    if (outcome !== null) {
+      if (outcome === "draw") {
+        endMsg.innerHTML = "Its a draw!";
+      } else {
+        endMsg.innerHTML = `
+        <span id="winner"></span> wins!
+        `;
+        const winner = document.querySelector("#winner");
+        if (outcome === "o") {
+          winner.innerHTML = "O";
+          winner.style.color = "#00F0FF";
+        } else {
+          winner.innerHTML = "X";
+          winner.style.color = "#9EFF00";
+        }
+      }
+      const endScreen = document.querySelector(".overlay");
+      endScreen.style.display = "flex";
       isOver = true;
     }
   };
@@ -288,6 +308,9 @@ const ticTacToe = (() => {
 
   // Reset board
   const reset = () => {
+    console.log("reset");
+    const endScreen = document.querySelector(".overlay");
+    endScreen.style.display = "none";
     gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
@@ -335,6 +358,7 @@ const ticTacToe = (() => {
     hasEnded,
     gameRun,
     getIsOver,
+    reset,
   };
 })();
 
@@ -343,6 +367,7 @@ const selectDif = document.querySelector(".select-dif");
 const startDifficulty = selectDif.options[selectDif.selectedIndex].text;
 const xButton = document.querySelector("#x-button");
 const oButton = document.querySelector("#o-button");
+const overlay = document.querySelector(".overlay");
 
 ticTacToe.newGame("x", startDifficulty);
 
@@ -384,4 +409,16 @@ oButton.addEventListener("click", () => {
   xButton.classList.remove("active");
   oButton.className += " active";
   ticTacToe.newGame("o", difficulty);
+});
+
+overlay.addEventListener("click", () => {
+  if (overlay.style.display === "flex") {
+    overlay.style.display = "none";
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.code === "KeyR" || event.key === "r") {
+    ticTacToe.reset();
+  }
 });

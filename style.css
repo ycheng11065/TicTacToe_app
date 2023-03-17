@@ -197,15 +197,6 @@ body {
     animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-@keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-}
-
 .x:before,
 .x:after {
     content: ""; 
@@ -249,24 +240,37 @@ body {
     top: 0;
     left: 0;
     background-color: rgba(0,0,0,0.9);
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.7s ease-in-out forwards;
     z-index: 2;
 }
 
 .overlay p {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: var(--font-color);
     font-size: 4rem;
+    margin-top: -10rem;
 }
+
+.overlay p:last-child {
+    margin-top: 1rem;
+  }
 
 #winner {
     color: var(--font-color);
     font-size: 4rem;
-    /* color: #00F0FF; */
     color: #9EFF00;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
 }
 
 @media (min-width: 250px) {
