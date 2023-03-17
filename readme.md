@@ -12,7 +12,7 @@ Challenge yourself against three varying levels of AI difficulty with this engag
 
 Easy - AI chooses random valid moves <br>
 Medium - AI uses Minimax with a depth constraint of 2 <br>
-Hard - AI uses Minimax (technically impossible to beat) <br>
+Hard - AI uses Minimax without constraints (technically impossible to beat) <br>
 
 
 
@@ -23,7 +23,7 @@ Hard - AI uses Minimax (technically impossible to beat) <br>
 - HTML
 
 ---
-## Usage
+## Features
 - Allow users to select their preferred game piece by providing the options to press 'X' or 'O', with 'X' always going first
 - Provide users with a drop-down menu to select the desired difficulty level of the AI opponent
 - Enable users to restart the game at any time by pressing the 'R' key on their keyboard
